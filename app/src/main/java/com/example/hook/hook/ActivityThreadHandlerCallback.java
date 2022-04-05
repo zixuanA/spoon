@@ -5,7 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.hook.Utils;
 import com.example.hook.application.MApplication;
+import com.example.hook.classloder_hook.CustomClassLoader;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -128,6 +130,16 @@ class ActivityThreadHandlerCallback implements Handler.Callback {
                             mResDirField.setAccessible(true);
                             mResDirField.set(loadedApk, MApplication.Companion.getContext().getFileStreamPath("test.apk").getPath());
 
+                            //修改插件classloader
+                            String odexPath = Utils.getPluginOptDexDir(activityInfo.applicationInfo.packageName).getPath();
+                            String libDir = Utils.getPluginLibDir(activityInfo.applicationInfo.packageName).getPath();
+                            ClassLoader classLoader = new CustomClassLoader(MApplication.Companion.getContext().getFileStreamPath("test.apk").getPath()
+                                    , odexPath, libDir, ClassLoader.getSystemClassLoader());
+                            Field mClassLoaderField = loadedApk.getClass().getDeclaredField("mClassLoader");
+                            mClassLoaderField.setAccessible(true);
+                            mClassLoaderField.set(loadedApk, classLoader);
+
+                            //修改插件activity的theme
                             Object packageParser = Class.forName("android.content.pm.PackageParser").newInstance();
                             Method parsePackage = packageParser.getClass().getDeclaredMethod("parsePackage", File.class, int.class);
                             Object pkg = parsePackage.invoke(packageParser, MApplication.Companion.getContext().getFileStreamPath("test.apk") , 1);

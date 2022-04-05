@@ -49,8 +49,9 @@ class MainActivity : AppCompatActivity() {
         try {
 //            Utils.extractAssets(newBase, "test.apk")
 //            LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath("test.apk"))
-            BaseDexClassLoaderHookHelper.patchClassLoader(classLoader,getFileStreamPath("test.apk"),
-                Utils.getPluginOptDexDir(applicationInfo.packageName))
+
+//            BaseDexClassLoaderHookHelper.patchClassLoader(classLoader,getFileStreamPath("test.apk"),
+//                Utils.getPluginOptDexDir(applicationInfo.packageName))
 
 
             AMSHookHelper.hookActivityManagerNative()
