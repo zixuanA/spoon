@@ -27,8 +27,7 @@ import java.lang.reflect.Method;
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        if ((Build.VERSION.SDK_INT < 29 && "startActivity".equals(method.getName()) )
-                || (Build.VERSION.SDK_INT >= 29 && "execStartActivity".equals(method.getName()))) {
+        if ("startActivity".equals(method.getName())) {
             // 只拦截这个方法
             // 替换参数, 任你所为;甚至替换原始Activity启动别的Activity偷梁换柱
             // API 23:

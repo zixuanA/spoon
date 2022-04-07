@@ -6,14 +6,14 @@ import java.lang.reflect.Method
 import java.util.HashSet
 
 fun Pine.CallFrame.toCallParameters(): HookUtil.CallParameters {
-    return HookUtil.CallParameters(this.method, thisObject, args,result, throwable)
+    return HookUtil.CallParameters(this.method, thisObject, args?: emptyArray(),result, throwable)
 }
 class HookUtil {
 
     data class CallParameters(
         val method: Member,
         var thisObject: Any,
-        var args: Array<Any>?,
+        var args: Array<Any>,
         private var result: Any? = null,
         private val throwable: Throwable? = null,
 //        /* package */
@@ -86,11 +86,13 @@ class HookUtil {
         public fun hook(method: Member, methodHook: MethodHook) {
             Pine.hook(method, object : top.canyie.pine.callback.MethodHook(){
                 override fun beforeCall(callFrame: Pine.CallFrame?) {
-                    methodHook.beforeCall(callFrame?.toCallParameters())
+                    callFrame?:return
+                    methodHook.beforeCall(callFrame.toCallParameters())
                 }
 
                 override fun afterCall(callFrame: Pine.CallFrame?) {
-                    methodHook.afterCall(callFrame?.toCallParameters())
+                    callFrame?:return
+                    methodHook.afterCall(callFrame.toCallParameters())
                 }
             })
         }

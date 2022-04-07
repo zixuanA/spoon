@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import com.example.hook.classloder_hook.BaseDexClassLoaderHookHelper
+import com.example.core.PluginManager
+import com.example.hook.application.MApplication
 import com.example.hook.databinding.ActivityMainBinding
 import com.example.hook.hook.AMSHookHelper
 import top.canyie.pine.Pine
@@ -37,9 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
 //            hookResources()
-            startActivity(Intent().apply {
-                component = ComponentName("com.example.tests","com.example.tests.MainActivity")
-            })
+//            startActivity(Intent().apply {
+//                component = ComponentName("com.example.tests", "com.example.tests.MainActivity")
+//            })
+            PluginManager.runPlugin(this, "test")
         }
     }
 
@@ -47,23 +49,25 @@ class MainActivity : AppCompatActivity() {
         super.attachBaseContext(newBase)
 
         try {
-//            Utils.extractAssets(newBase, "test.apk")
+
+
 //            LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath("test.apk"))
 
 //            BaseDexClassLoaderHookHelper.patchClassLoader(classLoader,getFileStreamPath("test.apk"),
 //                Utils.getPluginOptDexDir(applicationInfo.packageName))
 
-
-            AMSHookHelper.hookActivityManagerNative()
-            AMSHookHelper.hookActivityThreadHandler()
+//            AMSHookHelper.hookActivityManagerNative()
+//            AMSHookHelper.hookActivityThreadHandler()
         } catch (throwable: Throwable) {
             throw RuntimeException("hook failed", throwable)
         }
     }
+
     private fun hookResources() {
         val resourcesKey = Class.forName("android.content.res.ResourcesKey")
-        val createAssetManager = Class.forName("android.app.ResourcesManager").getDeclaredMethod("createAssetManager", resourcesKey)
-        Pine.hook(createAssetManager, object: MethodHook(){
+        val createAssetManager = Class.forName("android.app.ResourcesManager")
+            .getDeclaredMethod("createAssetManager", resourcesKey)
+        Pine.hook(createAssetManager, object : MethodHook() {
             override fun beforeCall(callFrame: Pine.CallFrame?) {
 
                 val assetManager = AssetManager::class.java.newInstance()

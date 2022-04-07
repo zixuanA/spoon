@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.activityhook"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -44,6 +44,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation project(path: ':hookwrapper')
+    implementation project(path: ':core')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

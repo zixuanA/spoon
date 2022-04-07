@@ -2,6 +2,7 @@ package com.example.hook.application
 
 import android.app.Application
 import android.content.Context
+import com.example.core.PluginManager
 import com.example.hook.Utils
 import com.example.reflection.FreeReflection
 import top.canyie.pine.Pine
@@ -14,14 +15,16 @@ class MApplication: Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         Utils.extractAssets(base, "test.apk")
+        Pine.setHookMode(HookMode.INLINE)
+        PluginManager.init(base!!)
+
+        PluginManager.install(base.getFileStreamPath("test.apk")?.path!!)
 
         MApplication.Companion.mContext = base
         FreeReflection.unseal(base)
-        Pine.setHookMode(HookMode.INLINE)
-        PineConfig.debug = true
     }
     companion object{
-        var mContext: Context? = null
+        private var mContext: Context? = null
         fun getContext(): Context? = mContext
 
     }
