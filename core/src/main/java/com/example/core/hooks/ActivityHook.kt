@@ -57,7 +57,6 @@ class ActivityHook : HookComponent() {
 
                 }
 
-//                    override fun afterCall(parameters: CallParameters?) {}
             )
             return
         }

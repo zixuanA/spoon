@@ -15,10 +15,9 @@ class MApplication: Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         Utils.extractAssets(base, "test.apk")
+        Utils.extractAssets(base, "test2.apk")
         Pine.setHookMode(HookMode.INLINE)
         PluginManager.init(base!!)
-
-        PluginManager.install(base.getFileStreamPath("test.apk")?.path!!)
 
         MApplication.Companion.mContext = base
         FreeReflection.unseal(base)

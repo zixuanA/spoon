@@ -1,8 +1,6 @@
 package com.example.hook
 
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.Menu
@@ -12,9 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.example.core.PluginManager
-import com.example.hook.application.MApplication
 import com.example.hook.databinding.ActivityMainBinding
-import com.example.hook.hook.AMSHookHelper
 import top.canyie.pine.Pine
 import top.canyie.pine.callback.MethodHook
 import java.lang.reflect.Method

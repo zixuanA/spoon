@@ -1,15 +1,13 @@
 package com.example.hook
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import com.example.core.PluginManager
 import com.example.hook.databinding.FragmentFirstBinding
-import top.canyie.pine.Pine
-import top.canyie.pine.callback.MethodHook
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -32,22 +30,40 @@ class FirstFragment : Fragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val method = FirstFragment::class.java.getMethod("getTitle", String::class.java)
-        val unhook = Pine.hook(method, object : MethodHook() {
-            override fun beforeCall(callFrame: Pine.CallFrame?) {
-                callFrame!!.args[0] = "hook success"
-            }
-        })
-        binding.buttonFirst.setOnClickListener {
+    private fun runPlugin(name: String) {
+        try {
+            PluginManager.runPlugin(requireContext(), name)
 
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            val name = getTitle("hook failed")
-
-            Toast.makeText(activity, name, Toast.LENGTH_SHORT).show()
+        } catch (e: RuntimeException) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "启动失败,未安装$name", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnInstallPlugin.setOnClickListener {
+            PluginManager.install(requireContext().getFileStreamPath("test.apk")?.path!!)
+        }
+        binding.btnDeletePlugin.setOnClickListener {
+            PluginManager.unInstall("test")
+        }
+        binding.btnRunPlugin.setOnClickListener {
+            runPlugin("test")
+        }
+        binding.btnInstallPlugin2.setOnClickListener {
+            PluginManager.install(requireContext().getFileStreamPath("test2.apk")?.path!!)
+        }
+        binding.btnDeletePlugin2.setOnClickListener {
+            PluginManager.unInstall("test2")
+        }
+        binding.btnRunPlugin2.setOnClickListener {
+            runPlugin("test2")
+        }
+
+    }
+
     fun getTitle(title: String): String = title
 
 
