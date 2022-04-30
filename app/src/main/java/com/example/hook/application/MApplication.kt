@@ -7,7 +7,6 @@ import com.example.hook.Utils
 import com.example.reflection.FreeReflection
 import top.canyie.pine.Pine
 import top.canyie.pine.Pine.HookMode
-import top.canyie.pine.PineConfig
 
 
 class MApplication: Application() {

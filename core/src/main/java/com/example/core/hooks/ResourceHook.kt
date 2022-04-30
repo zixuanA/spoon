@@ -1,5 +1,6 @@
 package com.example.core.hooks
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.ApplicationInfo
@@ -14,6 +15,7 @@ class ResourceHook : HookComponent() {
     override fun doHook() {
     }
 
+    @SuppressLint("ResourceType")
     override fun onPerformLaunchActivity(parameters: HookUtil.CallParameters) {
         val activityClientRecord = Class.forName("android.app.ActivityThread\$ActivityClientRecord")
 
@@ -36,7 +38,10 @@ class ResourceHook : HookComponent() {
                 }
                 val plugin = PluginManager.getPlugin(classloader)
                 mResDirField.set(loadedApk, Utils.getApkFile(plugin.name, plugin.nameWithExtension).path)
-
+//                //手动设置resources ⚠️插件中使用glide加载本地图片会出错，疑似glide不使用插件context
+                val resourcesField = loadedApk.javaClass.getDeclaredField("mResources")
+                resourcesField.isAccessible = true
+                resourcesField.set(loadedApk, plugin.resources)
 
                 //修改插件activity的theme
                 val activityInfoField: Field = activityClientRecord.getDeclaredField("activityInfo")

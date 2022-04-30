@@ -3,6 +3,9 @@ package com.example.core
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.res.AssetManager
+import android.content.res.Resources
 import com.example.core.classloader.CustomClassLoader
 import com.example.core.hooks.HookManager
 import java.io.File
@@ -20,6 +23,7 @@ object PluginManager {
     fun init(context: Context) {
         Utils.init(context)
         hookManager.doHook()
+        loadInstalledPlugins()
     }
 
 //    fun setUpPluginDir(dir: String) {
@@ -68,9 +72,14 @@ object PluginManager {
             libDir,
             ClassLoader.getSystemClassLoader()
         )
+        val applicationInfo = pkg::class.java.getDeclaredField("applicationInfo").get(pkg) as ApplicationInfo
+        val assetManager = AssetManager::class.java.newInstance() as AssetManager
+        val addAssetPath = assetManager::class.java.getMethod("addAssetPath",String::class.java)
+        addAssetPath.invoke(assetManager, Utils.getApkFile(pluginName, pluginNameWithExtension).path)
 
-        return Plugin(pluginName, pluginNameWithExtension, classLoader, mainActivityName)
+        return Plugin(pluginName, pluginNameWithExtension, classLoader, mainActivityName, applicationInfo, assetManager)
     }
+
     private fun getPluginMainActivity(pkg: Any):String {
         try {
             val activities = pkg::class.java.getDeclaredField("activities").get(pkg) as ArrayList<*>
@@ -91,7 +100,6 @@ object PluginManager {
                             return className
                     }
                 }
-                throw RuntimeException("$className has`t a main activity")
             }
             throw RuntimeException("this plugin has`t a main activity")
         } catch (e: NoSuchFieldException) {
@@ -103,7 +111,8 @@ object PluginManager {
 
     private fun loadInstalledPlugins() {
         Utils.getPluginBasicDir().listFiles()?.forEach {
-            plugins[it.nameWithoutExtension] = createPlugin(it.nameWithoutExtension, it.name)
+            if(it.isFile)
+                plugins[it.nameWithoutExtension] = createPlugin(it.nameWithoutExtension, it.name)
         }
     }
 
@@ -112,6 +121,10 @@ object PluginManager {
     }
 
     fun runPlugin(context: Context, plugin: Plugin) {
+//        plugin.pluginApplicationClient.callAttachBaseContext(context.applicationContext)
+//        plugin.pluginApplicationClient.callOnCreate()
+        plugin.context = context.applicationContext
+        plugin.resources = Resources(plugin.assetManager, context.resources.displayMetrics, context.resources.configuration)
         context.startActivity(Intent().apply {
             component = ComponentName(context, plugin.mainActivityName)
             putExtra(CHANGE_CLASS_LOADER, true)

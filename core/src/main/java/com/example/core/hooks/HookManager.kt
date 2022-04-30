@@ -9,7 +9,7 @@ import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 class HookManager {
-    private val hookComponents = mutableListOf<HookComponent>(ActivityHook(), ClassloaderHook(), ResourceHook())
+    private val hookComponents = mutableListOf<HookComponent>(ActivityHook(), ClassloaderHook(), ResourceHook(), ApplicationHook())
 //    private val activityThreadHandlerCallbackListener =
 //        mutableMapOf<Int, MutableList<HookComponent>>()
     private val performLaunchActivityListener = mutableListOf<HookComponent>()

@@ -9,8 +9,23 @@ import com.example.core.classloader.CustomClassLoader
 import com.example.core.classloader.CustomHostClassLoader
 import com.example.hookwrapper.HookUtil
 import dalvik.system.DexClassLoader
+import java.lang.RuntimeException
 import java.lang.reflect.Field
 
+fun getClassLoader(activityClientRecord: Any):ClassLoader {
+    val activityClientRecordField = Class.forName("android.app.ActivityThread\$ActivityClientRecord")
+    if(!activityClientRecordField.isInstance(activityClientRecord)) throw RuntimeException("parameter is not ActivityClientRecord")
+    //获取loaded apk
+    val packageInfoField = activityClientRecordField.getDeclaredField("packageInfo")
+    packageInfoField.isAccessible = true
+    val loadedApk = packageInfoField.get(activityClientRecord)
+
+    //修改插件classloader
+    //对于一个插件只需要修改一次classloader就可以，系统根据包名来读取loadedapk的缓存
+    val mClassLoaderField = loadedApk.javaClass.getDeclaredField("mClassLoader")
+    mClassLoaderField.isAccessible = true
+    return mClassLoaderField.get(loadedApk) as ClassLoader
+}
 class ClassloaderHook : HookComponent() {
     override fun doHook() {
     }
