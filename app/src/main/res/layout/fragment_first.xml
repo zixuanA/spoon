@@ -4,63 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_shape"
     tools:context=".FirstFragment">
 
-    <Button
+    <EditText
+        android:id="@+id/et_plugin_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="请输入插件名称"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.180000005" />
+
+
+
+    <ImageView
         android:id="@+id/btn_install_plugin"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="16dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/wenjian"
+        android:padding="10dp"
+        android:text="安装插件"
+        android:background="@drawable/button_shape"
+        android:translationZ="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_delete_plugin"
+        app:layout_constraintEnd_toStartOf="@+id/btn_run_plugin"
+        app:layout_constraintStart_toEndOf="@+id/btn_delete_plugin"
+        app:layout_constraintTop_toTopOf="@+id/btn_delete_plugin" />
+
+    <TextView
+        android:id="@+id/tv_install"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="安装插件1"
-        app:layout_constraintBottom_toTopOf="@+id/btn_run_plugin"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline4" />
+        android:layout_marginTop="8dp"
+        android:text="安装插件"
+        app:layout_constraintEnd_toEndOf="@+id/btn_install_plugin"
+        app:layout_constraintStart_toStartOf="@+id/btn_install_plugin"
+        app:layout_constraintTop_toBottomOf="@+id/btn_install_plugin" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_delete_plugin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="删除插件1"
-        app:layout_constraintBottom_toTopOf="@+id/btn_install_plugin"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline4" />
-
-    <Button
-        android:id="@+id/btn_run_plugin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="启动插件1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_shape"
+        android:padding="10dp"
+        android:src="@drawable/shanchu"
+        android:translationZ="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/et_plugin_name" />
 
-    <Button
-        android:id="@+id/btn_install_plugin2"
+    <TextView
+        android:id="@+id/tv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="安装插件2"
-        app:layout_constraintBottom_toTopOf="@+id/btn_run_plugin"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+        android:layout_marginTop="8dp"
+        android:text="删除插件"
+        app:layout_constraintEnd_toEndOf="@+id/btn_delete_plugin"
+        app:layout_constraintStart_toStartOf="@+id/btn_delete_plugin"
+        app:layout_constraintTop_toBottomOf="@+id/btn_delete_plugin" />
 
-    <Button
-        android:id="@+id/btn_delete_plugin2"
+    <ImageView
+        android:id="@+id/btn_run_plugin"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="16dp"
+        android:padding="10dp"
+        android:src="@drawable/success"
+        android:background="@drawable/button_shape"
+        android:translationZ="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_install_plugin"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/btn_install_plugin"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/tv_run"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="删除插件2"
-        app:layout_constraintBottom_toTopOf="@+id/btn_install_plugin"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
-
-    <Button
-        android:id="@+id/btn_run_plugin2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="启动插件2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="8dp"
+        android:text="运行插件"
+        app:layout_constraintEnd_toEndOf="@+id/btn_run_plugin"
+        app:layout_constraintStart_toStartOf="@+id/btn_run_plugin"
+        app:layout_constraintTop_toBottomOf="@+id/btn_run_plugin" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -76,13 +109,6 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_end="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

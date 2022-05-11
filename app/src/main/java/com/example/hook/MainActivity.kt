@@ -1,7 +1,6 @@
 package com.example.hook
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,11 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import com.example.core.PluginManager
 import com.example.hook.databinding.ActivityMainBinding
-import top.canyie.pine.Pine
-import top.canyie.pine.callback.MethodHook
-import java.lang.reflect.Method
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +27,6 @@ class MainActivity : AppCompatActivity() {
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-//            hookResources()
-//            startActivity(Intent().apply {
-//                component = ComponentName("com.example.tests", "com.example.tests.MainActivity")
-//            })
-            PluginManager.runPlugin(this, "test")
-        }
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -59,23 +47,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun hookResources() {
-        val resourcesKey = Class.forName("android.content.res.ResourcesKey")
-        val createAssetManager = Class.forName("android.app.ResourcesManager")
-            .getDeclaredMethod("createAssetManager", resourcesKey)
-        Pine.hook(createAssetManager, object : MethodHook() {
-            override fun beforeCall(callFrame: Pine.CallFrame?) {
-
-                val assetManager = AssetManager::class.java.newInstance()
-                val addAssetPath: Method = assetManager.javaClass.getMethod(
-                    "addAssetPath",
-                    String::class.java
-                )
-                addAssetPath.invoke(assetManager, getFileStreamPath("test.apk").path)
-                callFrame?.result = assetManager
-            }
-        })
-    }
+//    private fun hookResources() {
+//        val resourcesKey = Class.forName("android.content.res.ResourcesKey")
+//        val createAssetManager = Class.forName("android.app.ResourcesManager")
+//            .getDeclaredMethod("createAssetManager", resourcesKey)
+//        Pine.hook(createAssetManager, object : MethodHook() {
+//            override fun beforeCall(callFrame: Pine.CallFrame?) {
+//
+//                val assetManager = AssetManager::class.java.newInstance()
+//                val addAssetPath: Method = assetManager.javaClass.getMethod(
+//                    "addAssetPath",
+//                    String::class.java
+//                )
+//                addAssetPath.invoke(assetManager, getFileStreamPath("test.apk").path)
+//                callFrame?.result = assetManager
+//            }
+//        })
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

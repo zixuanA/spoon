@@ -52,15 +52,15 @@ class FirstFragment : Fragment() {
         binding.btnRunPlugin.setOnClickListener {
             runPlugin("test")
         }
-        binding.btnInstallPlugin2.setOnClickListener {
-            PluginManager.install(requireContext().getFileStreamPath("test2.apk")?.path!!)
-        }
-        binding.btnDeletePlugin2.setOnClickListener {
-            PluginManager.unInstall("test2")
-        }
-        binding.btnRunPlugin2.setOnClickListener {
-            runPlugin("test2")
-        }
+//        binding.btnInstallPlugin2.setOnClickListener {
+//            PluginManager.install(requireContext().getFileStreamPath("test2.apk")?.path!!)
+//        }
+//        binding.btnDeletePlugin2.setOnClickListener {
+//            PluginManager.unInstall("test2")
+//        }
+//        binding.btnRunPlugin2.setOnClickListener {
+//            runPlugin("test2")
+//        }
 
     }
 
