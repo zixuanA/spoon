@@ -44,23 +44,14 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnInstallPlugin.setOnClickListener {
-            PluginManager.install(requireContext().getFileStreamPath("test.apk")?.path!!)
+            PluginManager.install(requireContext().getFileStreamPath("${binding.etPluginName.text.toString()}.apk")?.path!!)
         }
         binding.btnDeletePlugin.setOnClickListener {
-            PluginManager.unInstall("test")
+            PluginManager.unInstall(binding.etPluginName.text.toString())
         }
         binding.btnRunPlugin.setOnClickListener {
-            runPlugin("test")
+            runPlugin(binding.etPluginName.text.toString())
         }
-//        binding.btnInstallPlugin2.setOnClickListener {
-//            PluginManager.install(requireContext().getFileStreamPath("test2.apk")?.path!!)
-//        }
-//        binding.btnDeletePlugin2.setOnClickListener {
-//            PluginManager.unInstall("test2")
-//        }
-//        binding.btnRunPlugin2.setOnClickListener {
-//            runPlugin("test2")
-//        }
 
     }
 
