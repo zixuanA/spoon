@@ -34,7 +34,19 @@ class ApplicationHook: HookComponent() {
 
                 plugin.pluginApplicationClient.callAttachBaseContext(plugin.context)
                 plugin.pluginApplicationClient.callOnCreate()
+                var method = plugin.pluginApplicationClient.pluginApplication::class.java.getMethod("getBaseContext")
+                val mApplication = method.invoke(plugin.pluginApplicationClient.pluginApplication)
+                var clazz: Class<*> = mApplication::class.java
+                while (clazz != Class.forName("android.content.ContextWrapper")) {
+                    clazz = clazz.superclass
+                }
+                val contextField = clazz.getDeclaredField("mBase")
+                contextField.isAccessible = true
+                val contextImpl = contextField.get(mApplication)
 
+                val resourcesField = contextImpl::class.java.getDeclaredField("mResources")
+                resourcesField.isAccessible = true
+                resourcesField.set(contextImpl, plugin.resources)
             }
         }
 

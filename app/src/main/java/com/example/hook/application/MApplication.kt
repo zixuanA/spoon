@@ -15,6 +15,8 @@ class MApplication: Application() {
         super.attachBaseContext(base)
         Utils.extractAssets(base, "test.apk")
         Utils.extractAssets(base, "test2.apk")
+        Utils.extractAssets(base, "玩安卓.apk")
+
         Pine.setHookMode(HookMode.INLINE)
         PluginManager.init(base!!)
 
