@@ -31,12 +31,13 @@ class HookManager {
             hookComponent.doHook()
             hookComponent.onRegisterListener(this)
         }
-        val activityThreadClass = Class.forName("android.app.ActivityThread")
-        val currentActivityThreadField: Field =
-            activityThreadClass.getDeclaredField("sCurrentActivityThread")
-        currentActivityThreadField.isAccessible = true
-        val currentActivityThread = currentActivityThreadField[null]
-        val activityClientRecord = Class.forName("android.app.ActivityThread\$ActivityClientRecord")
+        hookManagerHelper.doHook()
+//        val activityThreadClass = Class.forName("android.app.ActivityThread")
+//        val currentActivityThreadField: Field =
+//            activityThreadClass.getDeclaredField("sCurrentActivityThread")
+//        currentActivityThreadField.isAccessible = true
+//        val currentActivityThread = currentActivityThreadField[null]
+//        val activityClientRecord = Class.forName("android.app.ActivityThread\$ActivityClientRecord")
 //        val performLaunchActivity: Method = currentActivityThread.javaClass.getDeclaredMethod(
 //            "performLaunchActivity", activityClientRecord, Intent::class.java
 //        )

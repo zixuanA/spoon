@@ -201,6 +201,8 @@ long getMethodAddress(JNIEnv *env, jobject method) {
 }
 
 void changeArtMethodArtQuickCodeAddress(long sourceAddress, long targetAddress) {
+    long mem = 0;
+    memcpy(&mem, (void*)(sourceAddress + offset.ART_QUICK_CODE_OFFSET), sizeof mem);
     memcpy((void*)(sourceAddress + offset.ART_QUICK_CODE_OFFSET), (void*)(targetAddress + offset.ART_QUICK_CODE_OFFSET), 8);
 }
 

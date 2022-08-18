@@ -19,7 +19,14 @@ class MApplication: Application() {
 
         MApplication.Companion.mContext = base
         FreeReflection.unseal(base)
+        mContext = base
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        PluginManager.init(mContext!!)
+    }
+
     companion object{
         private var mContext: Context? = null
         fun getContext(): Context? = mContext
