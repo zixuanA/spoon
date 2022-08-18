@@ -16,50 +16,50 @@ class ActivityHook : HookComponent() {
 
     override fun doHook() {
         // 暂时只兼容Android 10
-        if (Build.VERSION.SDK_INT >= 29) {
-            val startActivityForResult = Activity::class.java.getDeclaredMethod(
-                "startActivityForResult",
-                Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java
-            )
-            startActivityForResult.isAccessible = true
-            HookUtil.Companion.hook(
-                startActivityForResult,
-                object : MethodHook() {
-                    override fun beforeCall(parameters: HookUtil.CallParameters) {
-                        val args = parameters.args
-                        val raw: Intent
-                        var index = 0
-                        for (i in 0 until (args.size ?: 0)) {
-                            if (args[i] is Intent) {
-                                index = i
-                                break
-                            }
-                        }
-                        raw = args[index] as Intent
-                        val newIntent = Intent()
-
-                        // 替身Activity的包名, 也就是我们自己的包名
-                        val stubPackage = "com.example.activityhook"
-
-                        // 这里我们把启动的Activity临时替换为 StubActivity
-                        val componentName = ComponentName(
-                            stubPackage,
-                            StubActivity::class.java.getName()
-                        )
-                        newIntent.component = componentName
-
-                        // 把我们原始要启动的TargetActivity先存起来
-                        newIntent.putExtra(EXTRA_TARGET_INTENT, raw)
-
-                        // 替换掉Intent, 达到欺骗AMS的目的
-                        args[index] = newIntent
-                    }
-
-                }
-
-            )
-            return
-        }
+//        if (Build.VERSION.SDK_INT >= 29) {
+//            val startActivityForResult = Activity::class.java.getDeclaredMethod(
+//                "startActivityForResult",
+//                Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java
+//            )
+//            startActivityForResult.isAccessible = true
+//            HookUtil.Companion.hook(
+//                startActivityForResult,
+//                object : MethodHook() {
+//                    override fun beforeCall(parameters: HookUtil.CallParameters) {
+//                        val args = parameters.args
+//                        val raw: Intent
+//                        var index = 0
+//                        for (i in 0 until (args.size ?: 0)) {
+//                            if (args[i] is Intent) {
+//                                index = i
+//                                break
+//                            }
+//                        }
+//                        raw = args[index] as Intent
+//                        val newIntent = Intent()
+//
+//                        // 替身Activity的包名, 也就是我们自己的包名
+//                        val stubPackage = "com.example.activityhook"
+//
+//                        // 这里我们把启动的Activity临时替换为 StubActivity
+//                        val componentName = ComponentName(
+//                            stubPackage,
+//                            StubActivity::class.java.getName()
+//                        )
+//                        newIntent.component = componentName
+//
+//                        // 把我们原始要启动的TargetActivity先存起来
+//                        newIntent.putExtra(EXTRA_TARGET_INTENT, raw)
+//
+//                        // 替换掉Intent, 达到欺骗AMS的目的
+//                        args[index] = newIntent
+//                    }
+//
+//                }
+//
+//            )
+//            return
+//        }
 //        var gDefaultField: Field? = null
 //        gDefaultField = if (Build.VERSION.SDK_INT >= 26) {
 //            val activityManager = Class.forName("android.app.ActivityManager")

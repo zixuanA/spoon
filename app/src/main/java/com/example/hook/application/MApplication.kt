@@ -5,8 +5,6 @@ import android.content.Context
 import com.example.core.PluginManager
 import com.example.hook.Utils
 import com.example.reflection.FreeReflection
-import top.canyie.pine.Pine
-import top.canyie.pine.Pine.HookMode
 
 
 class MApplication: Application() {
@@ -17,7 +15,6 @@ class MApplication: Application() {
         Utils.extractAssets(base, "test2.apk")
         Utils.extractAssets(base, "玩安卓.apk")
 
-        Pine.setHookMode(HookMode.INLINE)
         PluginManager.init(base!!)
 
         MApplication.Companion.mContext = base

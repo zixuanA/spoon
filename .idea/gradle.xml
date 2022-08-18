@@ -13,9 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/hook" />
             <option value="$PROJECT_DIR$/hookwrapper" />
+            <option value="$PROJECT_DIR$/pine" />
             <option value="$PROJECT_DIR$/reflection" />
+            <option value="$PROJECT_DIR$/rehook" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

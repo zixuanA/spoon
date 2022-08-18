@@ -4,8 +4,14 @@
     <bytecodeTargetLevel target="1.7">
       <module name="activityhook.app" target="11" />
       <module name="activityhook.core" target="11" />
-      <module name="activityhook.hook" target="11" />
+      <module name="activityhook.pine" target="11" />
       <module name="activityhook.reflection" target="11" />
+      <module name="activityhook.rehook" target="11" />
+      <module name="spoon.app" target="11" />
+      <module name="spoon.core" target="11" />
+      <module name="spoon.pine" target="11" />
+      <module name="spoon.reflection" target="11" />
+      <module name="spoon.rehook" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -6,9 +6,10 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "activityhook"
+rootProject.name = "spoon"
 include ':app'
 include ':reflection'
 include ':hookwrapper'
-include ':hook'
+include ':pine'
 include ':core'
+include ':rehook'

@@ -6,12 +6,12 @@ import java.lang.reflect.Method
 import java.util.HashSet
 
 fun Pine.CallFrame.toCallParameters(): HookUtil.CallParameters {
-    return HookUtil.CallParameters(this.method, thisObject, args?: emptyArray(),result, throwable)
+    return HookUtil.CallParameters(thisObject, args?: emptyArray(),result, throwable)
 }
 class HookUtil {
 
     data class CallParameters(
-        val method: Member,
+//        val method: Member,
         var thisObject: Any,
         var args: Array<Any>,
         private var result: Any? = null,
@@ -26,7 +26,7 @@ class HookUtil {
 
             other as CallParameters
 
-            if (method != other.method) return false
+//            if (method != other.method) return false
             if (thisObject != other.thisObject) return false
             if (!args.contentEquals(other.args)) return false
             if (result != other.result) return false
@@ -38,7 +38,8 @@ class HookUtil {
         }
 
         override fun hashCode(): Int {
-            var result1 = method?.hashCode() ?: 0
+//            var result1 = method?.hashCode() ?: 0
+            var result1 = 0
             result1 = 31 * result1 + (thisObject?.hashCode() ?: 0)
             result1 = 31 * result1 + args.contentHashCode()
             result1 = 31 * result1 + (result?.hashCode() ?: 0)
@@ -83,18 +84,9 @@ class HookUtil {
 
     }
     companion object{
-        public fun hook(method: Member, methodHook: MethodHook) {
-            Pine.hook(method, object : top.canyie.pine.callback.MethodHook(){
-                override fun beforeCall(callFrame: Pine.CallFrame?) {
-                    callFrame?:return
-                    methodHook.beforeCall(callFrame.toCallParameters())
-                }
+        fun hook(method: Member, methodHook: MethodHook) {
+            // todo 这里可以做一个切换底层实现逻辑，通过预先设置方法进行hook，按照是否成功及预定顺序选择使用的实现
 
-                override fun afterCall(callFrame: Pine.CallFrame?) {
-                    callFrame?:return
-                    methodHook.afterCall(callFrame.toCallParameters())
-                }
-            })
         }
     }
 }
